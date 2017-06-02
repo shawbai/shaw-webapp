@@ -1,4 +1,4 @@
-package com.shaw.blog;
+package com.shaw.blog.config;
 
 import javax.servlet.Filter;
 import javax.sql.DataSource;
@@ -12,12 +12,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -99,6 +101,12 @@ public class WebConfig extends WebMvcConfigurerAdapter implements
 		registry.addResourceHandler("/lib/**").addResourceLocations("/lib/");
 	}
 
+    public void addViewControllers( ViewControllerRegistry registry ) {
+        registry.addViewController( "/" ).setViewName( "forward:/page/index" );
+        registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
+        super.addViewControllers( registry );
+    } 
+	
 	@Override
 	public void run(String... arg0) throws Exception {
 
