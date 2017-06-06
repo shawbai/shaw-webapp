@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
- * @author wanglei
  *         页面跳转
  */
 @Controller

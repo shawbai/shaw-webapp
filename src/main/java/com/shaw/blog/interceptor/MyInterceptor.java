@@ -8,10 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 自定义拦截器1
- *
- * @author   单红宇(365384722)
- * @myblog  http://blog.csdn.net/catoop/
- * @create    2016年1月7日
  */
 public class MyInterceptor implements HandlerInterceptor {
 
