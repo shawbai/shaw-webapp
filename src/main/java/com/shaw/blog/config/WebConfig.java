@@ -34,42 +34,42 @@ import com.shaw.blog.interceptor.MyInterceptor;
 public class WebConfig extends WebMvcConfigurerAdapter implements
 		CommandLineRunner {
 
-	@Autowired
-	Environment env;
-
-	@Value("${db.name}")
-	String dbName;
-
-	@Value("${db.user}")
-	String dbUser;
-
-	@Value("${db.passwd}")
-	String dbPasswd;
-
-	@Value("${db.server}")
-	String dbServer;
-
-	// 数据库
-	@Bean
-	public DataSource dataSource() {
-		MysqlDataSource sqlserver = new MysqlDataSource();
-		sqlserver.setServerName(dbServer);
-		sqlserver.setDatabaseName(dbName);
-		sqlserver.setUser(dbUser);
-		sqlserver.setPassword(dbPasswd);
-		return sqlserver;
-	}
-
-	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource)
-			throws Exception {
-		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource);
-		sessionFactory.setTypeAliasesPackage("com.shaw.blog.model");
-		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		sessionFactory.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
-		return sessionFactory.getObject();
-	}
+//	@Autowired
+//	Environment env;
+//
+//	@Value("${db.name}")
+//	String dbName;
+//
+//	@Value("${db.user}")
+//	String dbUser;
+//
+//	@Value("${db.passwd}")
+//	String dbPasswd;
+//
+//	@Value("${db.server}")
+//	String dbServer;
+//
+//	// 数据库
+//	@Bean
+//	public DataSource dataSource() {
+//		MysqlDataSource sqlserver = new MysqlDataSource();
+//		sqlserver.setServerName(dbServer);
+//		sqlserver.setDatabaseName(dbName);
+//		sqlserver.setUser(dbUser);
+//		sqlserver.setPassword(dbPasswd);
+//		return sqlserver;
+//	}
+//
+//	@Bean
+//	public SqlSessionFactory sqlSessionFactory(DataSource dataSource)
+//			throws Exception {
+//		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource);
+//		sessionFactory.setTypeAliasesPackage("com.shaw.blog.model");
+//		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+//		sessionFactory.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
+//		return sessionFactory.getObject();
+//	}
 	
 	// 添加拦截器
 	@Override
@@ -104,6 +104,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements
 		registry.addResourceHandler("/lib/**").addResourceLocations("/lib/");
 	}
 
+	//跳转
     public void addViewControllers( ViewControllerRegistry registry ) {
         registry.addViewController( "/" ).setViewName( "forward:/page/index" );
         registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
