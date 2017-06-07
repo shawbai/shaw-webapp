@@ -335,4 +335,21 @@ public class Article extends BaseEntity {
     public void setArticleContent(String articleContent) {
         this.articleContent = articleContent;
     }
+
+	@Override
+	public String toString() {
+		return "Article [id=" + id + ", createTime=" + createTime
+				+ ", modifyTime=" + modifyTime + ", version=" + version
+				+ ", articleName=" + articleName + ", articleIp=" + articleIp
+				+ ", articleClick=" + articleClick + ", sortArticleId="
+				+ sortArticleId + ", memberId=" + memberId + ", articleType="
+				+ articleType + ", articleKeyword=" + articleKeyword
+				+ ", articleUp=" + articleUp + ", articleSupport="
+				+ articleSupport + ", pictures=" + pictures
+				+ ", articleContent=" + articleContent + ", getPage()="
+				+ getPage() + ", getRows()=" + getRows() + "]";
+	}
+    
+    
+    
 }

@@ -17,10 +17,6 @@ public class ShawWebappApplication  extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 		SpringApplication.run(ShawWebappApplication.class, args);
 	}
-	
-//    public void customize(ConfigurableEmbeddedServletContainer container) {  
-//        container.setPort(8081);  
-//    }  
 
 
 }
