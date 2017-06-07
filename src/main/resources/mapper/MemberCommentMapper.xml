@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shaw.blog.mapper.MemberCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.shaw.blog.model.MemberComment" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="BIGINT" />
+    <result column="member_id" property="memberId" jdbcType="BIGINT" />
+    <result column="article_id" property="articleId" jdbcType="BIGINT" />
+    <result column="commit_id" property="commitId" jdbcType="BIGINT" />
+    <result column="commit_content" property="commitContent" jdbcType="VARCHAR" />
+    <result column="commit_member_id" property="commitMemberId" jdbcType="BIGINT" />
+    <result column="commit_ip" property="commitIp" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

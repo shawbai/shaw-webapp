@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -65,9 +66,11 @@ public class WebConfig extends WebMvcConfigurerAdapter implements
 		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource);
 		sessionFactory.setTypeAliasesPackage("com.shaw.blog.model");
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		sessionFactory.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
 		return sessionFactory.getObject();
 	}
-
+	
 	// 添加拦截器
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

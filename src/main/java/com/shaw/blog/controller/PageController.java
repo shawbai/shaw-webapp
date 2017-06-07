@@ -23,5 +23,13 @@ public class PageController {
     	model.addAttribute("test", 0);
         return "index";
     }
+    
+    @RequestMapping("/manage")
+    public String goToManage(Model model) {
+    	logger.info("跳转管理");
+    	model.addAttribute("msg", "管理");
+    	model.addAttribute("test", 1);
+        return "index";
+    }
 
 }

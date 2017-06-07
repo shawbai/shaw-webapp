@@ -8,7 +8,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class ShawWebappApplication  extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer{
+public class ShawWebappApplication  extends SpringBootServletInitializer {
 
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(ShawWebappApplication.class);
@@ -18,9 +18,9 @@ public class ShawWebappApplication  extends SpringBootServletInitializer impleme
 		SpringApplication.run(ShawWebappApplication.class, args);
 	}
 	
-    public void customize(ConfigurableEmbeddedServletContainer container) {  
-        container.setPort(8081);  
-    }  
+//    public void customize(ConfigurableEmbeddedServletContainer container) {  
+//        container.setPort(8081);  
+//    }  
 
 
 }

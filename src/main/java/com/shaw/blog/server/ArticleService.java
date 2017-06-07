@@ -15,7 +15,7 @@ public class ArticleService {
 	ArticleMapper articleMapper;
 
 	public List<Article> findAllArticle() {
-		return articleMapper.getArticleList();
+		return articleMapper.selectAll();
 	}
 
 
