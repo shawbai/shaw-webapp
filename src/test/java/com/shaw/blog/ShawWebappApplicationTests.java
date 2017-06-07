@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,14 +19,18 @@ public class ShawWebappApplicationTests {
 
 	@Autowired
 	ArticleService articleService;
-	
+    private Logger logger = LoggerFactory.getLogger(getClass());
 	@Test
 	public void contextLoads() {
 //		System.out.println("!!!!!!!!!!"+articleService.findAllArticle().size());
+		logger.debug("debug!!!!!!!!!!!!!!");
+		logger.info("info!!!!!!!!!!!!!");
 		Article article = new Article();
+		article.setPage(1);
+		article.setRows(4);
 		List<Article> list = articleService.findArticleByPage(article);
 		for (Article article2 : list) {
-			System.out.println(article2);
+			logger.info(article2.toString());
 		}
 	}
 

@@ -1,11 +1,19 @@
 package com.shaw.blog.model;
 
 import com.shaw.blog.core.BaseEntity;
+
+import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.*;
 
-public class Article extends BaseEntity {
+public class Article extends BaseEntity implements Serializable{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 文章自增ID号
      */
     @Id
