@@ -24,12 +24,12 @@ public class PageController {
         return "index";
     }
     
-    @RequestMapping("/manage")
-    public String goToManage(Model model) {
+    @RequestMapping("/test")
+    public String goToTest(Model model) {
     	logger.info("跳转管理");
     	model.addAttribute("msg", "管理");
     	model.addAttribute("test", 1);
-        return "index";
+        return "test";
     }
 
 }
