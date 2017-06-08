@@ -26,12 +26,11 @@ public class ShawWebappApplicationTests {
 		logger.debug("debug!!!!!!!!!!!!!!");
 		logger.info("info!!!!!!!!!!!!!");
 		Article article = new Article();
-		article.setPage(1);
-		article.setRows(4);
 		List<Article> list = articleService.findArticleByPage(article);
 		for (Article article2 : list) {
 			logger.info(article2.toString());
 		}
 	}
+	
 
 }

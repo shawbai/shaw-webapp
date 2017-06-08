@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
@@ -19,39 +20,54 @@ import com.shaw.blog.model.Article;
 import com.shaw.blog.server.ArticleService;
 import com.shaw.common.pojo.BaseResponse;
 
-@RequestMapping("/article")
+@RequestMapping("/v1")
 @Controller
 public class ArticleController {
 
 	private Logger log = LoggerFactory.getLogger(ArticleController.class);
-
 
 	@Autowired
 	ArticleService articleService;
 
 	@Autowired
 	HttpSession session;
-	
-	@RequestMapping(value = "/findAllOrder", produces = "application/json")
+
+	@RequestMapping(value = "/articles", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public Object findAllOrder(HttpServletRequest request) {
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("Articlelist", articleService.findAllArticle());
-		return BaseResponse.success(map);
+	public Object findAllArticle(HttpServletRequest request) {
+		return BaseResponse.success(articleService.findAllArticle());
+	}
+
+	/**
+	 * 获取文章列表
+	 * @param request
+	 * @param article 参数
+	 * @return 文章列表
+	 */
+	@RequestMapping(value = "/articles/page", method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public Object findArticles(HttpServletRequest request, Article article) {
+//		log.info("获取文章列表入参:{}",article);
+		if (article.getPage() != null && article.getRows() != null) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<Article> articleList = articleService.findArticleByPage(article);
+			map.put("pageInfo", new PageInfo<Article>(articleList));
+			map.put("queryParam", article);
+			map.put("page", article.getPage());
+			map.put("rows", article.getRows());
+//			log.info("获取文章列表出参:{}",map);
+			return BaseResponse.success(map);
+		} else {
+			return BaseResponse.error("请传入分页参数");
+		}
 	}
 	
-	@RequestMapping(value = "/findArticleByPage", produces = "application/json")
-	@ResponseBody
-	public Object findArticleByPage(HttpServletRequest request,Article article) {
-		log.debug("debug!!!!!!!!!!!!!!");
-		log.info("info!!!!!!!!!!!!!");
-		Map<String,Object> map = new HashMap<String, Object>();
-        List<Article> articleList =  articleService.findArticleByPage(article);
-        map.put("pageInfo", new PageInfo<Article>(articleList));
-        map.put("queryParam", article);
-        map.put("page", article.getPage());
-        map.put("rows", article.getRows());
-		return BaseResponse.success(map);
-	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

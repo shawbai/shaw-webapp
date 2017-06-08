@@ -27,30 +27,29 @@ package com.shaw.blog.core;
 import javax.persistence.*;
 
 /**
- * 基础信息  分页
- *
+ * 基础信息 分页
+ * 
  */
 public class BaseEntity {
-    @Transient
-    private Integer page = 1;
+	@Transient
+	private Integer page;
 
-    @Transient
-    private Integer rows = 10;
+	@Transient
+	private Integer rows;
 
+	public Integer getPage() {
+		return page;
+	}
 
-    public Integer getPage() {
-        return page;
-    }
+	public void setPage(Integer page) {
+		this.page = page;
+	}
 
-    public void setPage(Integer page) {
-        this.page = page;
-    }
+	public Integer getRows() {
+		return rows;
+	}
 
-    public Integer getRows() {
-        return rows;
-    }
-
-    public void setRows(Integer rows) {
-        this.rows = rows;
-    }
+	public void setRows(Integer rows) {
+		this.rows = rows;
+	}
 }
