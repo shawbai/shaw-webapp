@@ -32,5 +32,10 @@ public class ShawWebappApplicationTests {
 		}
 	}
 	
+	@Test
+	public void getArticle() {
+		Article list = articleService.getArticleById(63L);
+		System.out.println(list);
+	}
 
 }

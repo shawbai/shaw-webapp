@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.shaw.blog.mapper.SysConfigMapper" >
-  <resultMap id="BaseResultMap" type="com.shaw.blog.model.SysConfig" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shaw.blog.mapper.SysConfigMapper">
+  <resultMap id="BaseResultMap" type="com.shaw.blog.model.SysConfig">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="domain" property="domain" jdbcType="VARCHAR" />
-    <result column="config_key" property="configKey" jdbcType="VARCHAR" />
-    <result column="value" property="value" jdbcType="LONGVARCHAR" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="domain" jdbcType="VARCHAR" property="domain" />
+    <result column="config_key" jdbcType="VARCHAR" property="configKey" />
+    <result column="value" jdbcType="LONGVARCHAR" property="value" />
   </resultMap>
 </mapper>

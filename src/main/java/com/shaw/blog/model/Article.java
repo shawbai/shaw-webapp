@@ -4,14 +4,13 @@ import com.shaw.blog.core.BaseEntity;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.*;
 
 public class Article extends BaseEntity implements Serializable{
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2644114722233750664L;
 
 	/**
      * 文章自增ID号
@@ -62,7 +61,7 @@ public class Article extends BaseEntity implements Serializable{
      * 文章的模式:0为私有，1为公开，2为仅好友查看
      */
     @Column(name = "article_type")
-    private Integer articleType;
+    private String articleType;
 
     /**
      * 文章关键字
@@ -245,7 +244,7 @@ public class Article extends BaseEntity implements Serializable{
      *
      * @return article_type - 文章的模式:0为私有，1为公开，2为仅好友查看
      */
-    public Integer getArticleType() {
+    public String getArticleType() {
         return articleType;
     }
 
@@ -254,7 +253,7 @@ public class Article extends BaseEntity implements Serializable{
      *
      * @param articleType 文章的模式:0为私有，1为公开，2为仅好友查看
      */
-    public void setArticleType(Integer articleType) {
+    public void setArticleType(String articleType) {
         this.articleType = articleType;
     }
 
@@ -346,16 +345,11 @@ public class Article extends BaseEntity implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", createTime=" + createTime
-				+ ", modifyTime=" + modifyTime + ", version=" + version
-				+ ", articleName=" + articleName + ", articleIp=" + articleIp
-				+ ", articleClick=" + articleClick + ", sortArticleId="
-				+ sortArticleId + ", memberId=" + memberId + ", articleType="
-				+ articleType + ", articleKeyword=" + articleKeyword
-				+ ", articleUp=" + articleUp + ", articleSupport="
-				+ articleSupport + ", pictures=" + pictures
-				+ ", articleContent=" + articleContent + ", getPage()="
-				+ getPage() + ", getRows()=" + getRows() + "]";
+		return "Article [id=" + id + ", createTime=" + createTime + ", modifyTime=" + modifyTime + ", version="
+				+ version + ", articleName=" + articleName + ", articleIp=" + articleIp + ", articleClick="
+				+ articleClick + ", sortArticleId=" + sortArticleId + ", memberId=" + memberId + ", articleType="
+				+ articleType + ", articleKeyword=" + articleKeyword + ", articleUp=" + articleUp + ", articleSupport="
+				+ articleSupport + ", pictures=" + pictures + ", articleContent=" + articleContent + "]";
 	}
     
     
