@@ -55,6 +55,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements
 		registry.addResourceHandler("/css/**").addResourceLocations("/css/");
 		registry.addResourceHandler("/img/**").addResourceLocations("/img/");
 		registry.addResourceHandler("/lib/**").addResourceLocations("/lib/");
+		registry.addResourceHandler("/**").addResourceLocations("/vue-blog/dist/");
 	}
 
 	//跳转
