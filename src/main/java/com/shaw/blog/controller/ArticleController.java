@@ -22,7 +22,7 @@ import com.shaw.blog.model.Article;
 import com.shaw.blog.server.ArticleService;
 import com.shaw.common.pojo.BaseResponse;
 
-@RequestMapping("/myblog/v1")
+@RequestMapping("/api/myblog/v1")
 @Controller
 public class ArticleController {
 
