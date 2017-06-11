@@ -26,6 +26,8 @@ package com.shaw.blog.core;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 基础信息 分页
  * 
@@ -36,7 +38,7 @@ public class BaseEntity {
 
 	@Transient
 	private Integer rows;
-
+	@JsonIgnore
 	public Integer getPage() {
 		return page;
 	}
@@ -45,6 +47,7 @@ public class BaseEntity {
 		this.page = page;
 	}
 
+	@JsonIgnore
 	public Integer getRows() {
 		return rows;
 	}

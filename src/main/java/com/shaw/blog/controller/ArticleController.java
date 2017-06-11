@@ -14,15 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.shaw.blog.config.WebConfig;
 import com.shaw.blog.model.Article;
 import com.shaw.blog.server.ArticleService;
 import com.shaw.common.pojo.BaseResponse;
 
-@RequestMapping("/api/myblog/v1")
+@RequestMapping(WebConfig.serverName+"/v1")
 @Controller
 public class ArticleController {
 

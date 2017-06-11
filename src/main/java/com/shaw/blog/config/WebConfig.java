@@ -23,6 +23,8 @@ import com.shaw.blog.interceptor.MyInterceptor;
 @MapperScan(basePackages = "com.shaw.blog.mapper")
 public class WebConfig extends WebMvcConfigurerAdapter implements
 		CommandLineRunner {
+	
+	public static final String serverName = "/api/myblog";
 
 	// 添加拦截器
 	@Override
