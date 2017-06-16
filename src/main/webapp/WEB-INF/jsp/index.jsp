@@ -5,13 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/js/test.js"></script>
-<link rel="stylesheet" href="/css/welcome.css">
+<script src="/dist/vendors/jquery/jquery.min.js"></script>
+<script src="/dist/scripts/test.js"></script>
+<link rel="stylesheet" href="/dist/assets/css/welcome.css">
 </head>
 <body>
 	<div class="test">
-	<img src="/img/logo.png" />
+	<img src="/dist/assets/img/logo.png" />
 		<h1>${msg}</h1>
 	</div>
 	<div class="test">

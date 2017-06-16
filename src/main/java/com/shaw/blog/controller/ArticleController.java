@@ -84,7 +84,24 @@ public class ArticleController {
 		}
 	}
 	
-	
+	/**
+	 * 获取文章列表
+	 * @param request
+	 * @param article 参数
+	 * @return 文章列表
+	 */
+	@RequestMapping(value = "/test/{id}", method = RequestMethod.POST, produces = "application/json")
+	@ResponseBody
+	public Object test(HttpServletRequest request,@PathVariable Long id) {
+		log.info("获取文章列表入参:{}",id);
+		if (id != null) {
+			Article article = articleService.getArticleById(id);
+			log.info("获取文章列表入参:{}",article);
+			return BaseResponse.success(article);
+		} else {
+			return BaseResponse.error("请传入ID");
+		}
+	}
 	
 	
 	
