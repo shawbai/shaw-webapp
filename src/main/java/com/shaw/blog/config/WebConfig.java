@@ -31,7 +31,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements
     @Autowired
     private MyProperties properties;
 	
-	public static final String serverName = "/api/myblog";
+	public static final String serverName = "/myblog";
 
 	// 添加拦截器
 	@Override

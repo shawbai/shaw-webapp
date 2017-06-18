@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shaw.blog.mapper.ArticleMapper;
 import com.shaw.blog.model.Article;
 
@@ -19,11 +20,11 @@ public class ArticleService {
 		return articleMapper.selectAll();
 	}
 
-	public List<Article> findArticleByPage(Article article) {
+	public PageInfo<Article> findArticleByPage(Article article) {
 		if (article.getPage() != null && article.getRows() != null) {
 			PageHelper.startPage(article.getPage(), article.getRows());
 		}
-		return articleMapper.selectAll();
+		return  new PageInfo<Article>(articleMapper.selectAll());
 	}
 
 	public Article getArticleById(Long id) {

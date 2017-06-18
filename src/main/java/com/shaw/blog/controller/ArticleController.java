@@ -52,8 +52,10 @@ public class ArticleController {
 //		log.info("获取文章列表入参:{}",article);
 		if (article.getPage() != null && article.getRows() != null) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			List<Article> articleList = articleService.findArticleByPage(article);
-			map.put("pageInfo", new PageInfo<Article>(articleList));
+			PageInfo<Article> pageInfo = articleService.findArticleByPage(article);
+			if(article.getPage()!=pageInfo.getPageNum())
+				return BaseResponse.error("空");
+			map.put("pageInfo", pageInfo);
 			map.put("queryParam", article);
 			map.put("page", article.getPage());
 			map.put("rows", article.getRows());
