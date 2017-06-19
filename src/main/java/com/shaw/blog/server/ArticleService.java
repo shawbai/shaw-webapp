@@ -20,11 +20,11 @@ public class ArticleService {
 		return articleMapper.selectAll();
 	}
 
-	public PageInfo<Article> findArticleByPage(Article article) {
+	public List<Article> findArticleByPage(Article article) {
 		if (article.getPage() != null && article.getRows() != null) {
 			PageHelper.startPage(article.getPage(), article.getRows());
 		}
-		return  new PageInfo<Article>(articleMapper.selectAll());
+		return  articleMapper.selectAll();
 	}
 
 	public Article getArticleById(Long id) {

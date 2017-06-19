@@ -22,7 +22,7 @@ import com.shaw.blog.model.Article;
 import com.shaw.blog.server.ArticleService;
 import com.shaw.common.pojo.BaseResponse;
 
-@RequestMapping(WebConfig.serverName+"/v1")
+@RequestMapping(WebConfig.serverName+"/v1/articles")
 @Controller
 public class ArticleController {
 
@@ -33,8 +33,12 @@ public class ArticleController {
 
 	@Autowired
 	HttpSession session;
-
-	@RequestMapping(value = "/articles", method = RequestMethod.GET, produces = "application/json")
+	/**
+	 * 查询所有文章
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Object findAllArticle(HttpServletRequest request) {
 		return BaseResponse.success(articleService.findAllArticle());
@@ -46,16 +50,13 @@ public class ArticleController {
 	 * @param article 参数
 	 * @return 文章列表
 	 */
-	@RequestMapping(value = "/articles/page", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/page", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Object findArticles(HttpServletRequest request,Article article) {
 //		log.info("获取文章列表入参:{}",article);
 		if (article.getPage() != null && article.getRows() != null) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			PageInfo<Article> pageInfo = articleService.findArticleByPage(article);
-			if(article.getPage()!=pageInfo.getPageNum())
-				return BaseResponse.error("空");
-			map.put("pageInfo", pageInfo);
+			map.put("pageInfo", new PageInfo<Article>(articleService.findArticleByPage(article)));
 			map.put("queryParam", article);
 			map.put("page", article.getPage());
 			map.put("rows", article.getRows());
@@ -68,12 +69,12 @@ public class ArticleController {
 	
 	
 	/**
-	 * 获取文章列表
+	 * 根据ID获取文章
 	 * @param request
-	 * @param article 参数
-	 * @return 文章列表
+	 * @param id 文章ID
+	 * @return
 	 */
-	@RequestMapping(value = "/article/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Object getArticle(HttpServletRequest request,@PathVariable Long id) {
 		log.info("获取文章列表入参:{}",id);
@@ -86,23 +87,22 @@ public class ArticleController {
 		}
 	}
 	
+	
+	
+	
+	
+	
 	/**
-	 * 获取文章列表
+	 * 测试
 	 * @param request
-	 * @param article 参数
-	 * @return 文章列表
+	 * @return
 	 */
-	@RequestMapping(value = "/test/{id}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/test", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public Object test(HttpServletRequest request,@PathVariable Long id) {
-		log.info("获取文章列表入参:{}",id);
-		if (id != null) {
-			Article article = articleService.getArticleById(id);
-			log.info("获取文章列表入参:{}",article);
-			return BaseResponse.success(article);
-		} else {
-			return BaseResponse.error("请传入ID");
-		}
+	public Object test(HttpServletRequest request) {
+		
+		
+			return BaseResponse.success();
 	}
 	
 	
