@@ -67,7 +67,6 @@ public class ArticleController {
 		}
 	}
 	
-	
 	/**
 	 * 根据ID获取文章
 	 * @param request
@@ -100,7 +99,7 @@ public class ArticleController {
 	@RequestMapping(value = "/test", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Object test(HttpServletRequest request) {
-		
+			System.out.println(request.getHeader("Origin"));
 		
 			return BaseResponse.success();
 	}
