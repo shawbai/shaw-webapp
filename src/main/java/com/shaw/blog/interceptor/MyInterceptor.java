@@ -1,8 +1,12 @@
 package com.shaw.blog.interceptor;
 
+import java.lang.reflect.Method;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.parser.Authorization;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,6 +20,12 @@ public class MyInterceptor implements HandlerInterceptor {
             throws Exception {
         System.out.println(">>>MyInterceptor>>>>>>>在请求处理之前进行调用（Controller方法调用之前）");
         System.out.println(request.getHeader("Origin"));
+        
+        //如果不是映射到方法直接通过
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
+
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
     }
 
