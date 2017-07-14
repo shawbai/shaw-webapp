@@ -1,21 +1,20 @@
 package com.shaw.blog.token;
 
-import com.alibaba.fastjson.JSON;
-import com.shaw.blog.redis.RedisTempalte;
-import com.shaw.common.constant.ConstantsUtil;
-import com.shaw.common.util.ShawStringUtils;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import com.alibaba.fastjson.JSON;
+import com.shaw.blog.redis.RedisTempalte;
+import com.shaw.common.constant.ConstantsUtil;
 
 public class CacheSessionProvider implements SessionProvider {
     private static Logger logger = LoggerFactory.getLogger(CacheSessionProvider.class);

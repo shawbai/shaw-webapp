@@ -6,6 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.shaw.blog.model.Article;
@@ -17,6 +21,10 @@ public class ShawWebappApplicationTests {
 
 	@Autowired
 	ArticleService articleService;
+	
+	@Autowired
+	private StringRedisTemplate template;
+	
     private Logger logger = LoggerFactory.getLogger(getClass());
 	@Test
 	public void contextLoads() {
