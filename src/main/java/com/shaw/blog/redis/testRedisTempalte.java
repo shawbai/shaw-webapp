@@ -24,22 +24,23 @@ import redis.clients.jedis.Pipeline;
  * 修改人姓名        修改时间             版本号              描述
  */
 @Component
-public class RedisTempalte {
+public class testRedisTempalte {
 
     private static Logger logger = LoggerFactory.getLogger("RedisTempalte");
 
     @Autowired
-    JedisPool jedisPool;
+    JedisDataSourceImpl jedisDataSourceImpl;
     
     protected <T> T execute(RedisCallback<T> callback, Object... args) {
         Jedis jedis = null;
         try {
-            Object index = ((Object[]) args)[0];
-            if (null != index && Integer.parseInt(index.toString()) > 0 && Integer.parseInt(index.toString()) < 16) {
-                jedis = RedisManager.getRedis(Integer.parseInt(index.toString()));
-            } else {
-                jedis = RedisManager.getRedis();
-            }
+//            Object index = ((Object[]) args)[0];
+//            if (null != index && Integer.parseInt(index.toString()) > 0 && Integer.parseInt(index.toString()) < 16) {
+//                jedis = RedisManager.getRedis(Integer.parseInt(index.toString()));
+//            } else {
+//                jedis = RedisManager.getRedis();
+//            }
+            jedisDataSourceImpl.getRedisClient();
             return callback.call(jedis, args);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -1,18 +1,16 @@
 package com.shaw.blog.redis;
 
+import java.util.Properties;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import java.util.Properties;
-
-/**
- */
-//@Component
 public class RedisManager {
 
 	private static Logger logger = LoggerFactory.getLogger("RedisManager");
@@ -20,7 +18,10 @@ public class RedisManager {
 	private static JedisPool pool = null;
 	private static String IP_ADDRESS = null;
 	
-
+	@Autowired
+	private RedisProperties properties;
+	
+	
 	
 	static {
 		try {
@@ -72,16 +73,10 @@ public class RedisManager {
 
         return null;
     }
-
-    public static void returnRedis(Jedis jedis) {
+    
+    public static void close(Jedis jedis) {
         if (jedis != null) {
-            pool.returnResource(jedis);
-        }
-    }
-
-    public static void returnBrokeRedis(Jedis jedis) {
-        if (jedis != null) {
-            pool.returnBrokenResource(jedis);
+        	jedis.close();
         }
     }
 
