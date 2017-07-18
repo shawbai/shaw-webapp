@@ -1,7 +1,5 @@
 package com.shaw.blog.redis;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import com.shaw.common.util.ShawStringUtils;
+
 @Configuration
 public class RedisConfiguration {
 
-	@Value("${redis.ip}")
+	@Value("${redis.host}")
 	private String host;
 
 	@Value("${redis.port}")
@@ -39,7 +39,12 @@ public class RedisConfiguration {
 		config.setMaxTotal(maxTotal);
 		config.setMaxIdle(maxIdle);
 		config.setMaxWaitMillis(maxWaitMillis);
-		return new JedisPool(config, host, port);
+		if (ShawStringUtils.isBlank(password)) {
+			return new JedisPool(config, host, port,timeout);
+		} else {
+			return new JedisPool(config, host, port,timeout,password);
+		}
+		
 	}
 
 

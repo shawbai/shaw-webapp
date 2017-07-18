@@ -18,7 +18,6 @@ import com.shaw.common.constant.ConstantsUtil;
 
 public class CacheSessionProvider implements SessionProvider {
     private static Logger logger = LoggerFactory.getLogger(CacheSessionProvider.class);
-    private String cookie_token = "_bk_sid";
     private String session_domain = "_bk_session:";
 
 
@@ -138,9 +137,6 @@ public class CacheSessionProvider implements SessionProvider {
         this.session_domain = session_domain;
     }
 
-    public void setCookie_token(String cookie_token) {
-        this.cookie_token = cookie_token;
-    }
 
     @Override
     public Serializable getUserByToken(String token) {

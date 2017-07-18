@@ -11,41 +11,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Pipeline;
 
 
-/**
- * Copyright (C), 2012-2014, 苏州海云融通有限公司
- * Author:   Wanglei
- * Date:     2015-8-12上午10:21:45
- * Description:Redis 模板
- * <author>      <time>      <version>    <desc>
- * 修改人姓名        修改时间             版本号              描述
- */
 @Component
 public class RedisTempalte {
 
     private static Logger logger = LoggerFactory.getLogger("RedisTempalte");
 
     @Autowired
-    JedisPool jedisPool;
+    private JedisDataSource jedisDataSource;
     
     protected <T> T execute(RedisCallback<T> callback, Object... args) {
         Jedis jedis = null;
         try {
             Object index = ((Object[]) args)[0];
             if (null != index && Integer.parseInt(index.toString()) > 0 && Integer.parseInt(index.toString()) < 16) {
-                jedis = RedisManager.getRedis(Integer.parseInt(index.toString()));
+                jedis = jedisDataSource.getRedis(Integer.parseInt(index.toString()));
             } else {
-                jedis = RedisManager.getRedis();
+                jedis = jedisDataSource.getRedis();
             }
             return callback.call(jedis, args);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         } finally {
             if (jedis != null) {
-                RedisManager.close(jedis);
+            	jedisDataSource.close(jedis);
             }
         }
         return null;
@@ -56,9 +47,6 @@ public class RedisTempalte {
     /**
      * @param index 实例index
      * @Description:选择DB实例
-     * @author Wanglei
-     * Date: 2015-8-12 上午9:28:34
-     * @version [版本号1.0.0]
      */
     public void select(int index) {
         execute(new RedisCallback<String>() {
@@ -68,7 +56,11 @@ public class RedisTempalte {
             }
         }, index);
     }
-
+    /**是否连接
+     * 
+     * @param index
+     * @return
+     */
     public Boolean isConnected(int index) {
         return execute(new RedisCallback<Boolean>() {
             @Override
@@ -77,7 +69,12 @@ public class RedisTempalte {
             }
         }, index);
     }
-
+    
+    /**
+     * 清空当前数据库中的所有 key。
+     * @param index
+     * @return
+     */
     public String flushDB(int index) {
         return execute(new RedisCallback<String>() {
             @Override
@@ -87,6 +84,12 @@ public class RedisTempalte {
         }, index);
     }
 
+    /**
+     * 检查给定 key 是否存在。
+     * @param index
+     * @param key
+     * @return
+     */
     public Boolean exists(int index, String key) {
         return execute(new RedisCallback<Boolean>() {
             @Override
@@ -97,6 +100,13 @@ public class RedisTempalte {
         }, index, key);
     }
 
+    /**
+     * 查看哈希表 key 中，给定域 field 是否存在。
+     * @param index
+     * @param mapKey
+     * @param attributeKey
+     * @return
+     */
     public Boolean hexists(int index, String mapKey, String attributeKey) {
         return execute(new RedisCallback<Boolean>() {
             @Override
@@ -109,13 +119,10 @@ public class RedisTempalte {
     }
 
     /**
+     * 返回哈希表 key 中给定域 field 的值。
      * @param key
      * @param field
      * @return
-     * @Description: 获取Hash（哈希）
-     * @author Wanglei
-     * Date: 2015-8-12 上午9:29:38
-     * @version [版本号1.0.0]
      */
     public String hget(int index, String key, String field) {
         return execute(new RedisCallback<String>() {
@@ -127,7 +134,16 @@ public class RedisTempalte {
         }, index, key, field);
     }
 
-
+    /**
+     * 查找所有符合给定模式 pattern 的 key 。
+		KEYS * 匹配数据库中所有 key 。
+		KEYS h?llo 匹配 hello ， hallo 和 hxllo 等。
+		KEYS h*llo 匹配 hllo 和 heeeeello 等。
+		KEYS h[ae]llo 匹配 hello 和 hallo ，但不匹配 hillo 。
+     * @param index
+     * @param pattern
+     * @return
+     */
     public Set<String> keys(int index, String pattern) {
         return execute(new RedisCallback<Set<String>>() {
             @Override
@@ -138,7 +154,13 @@ public class RedisTempalte {
         }, index, pattern);
     }
 
-
+    /**
+     * 返回哈希表 key 中，所有的域和值。
+		在返回值里，紧跟每个域名(field name)之后是域的值(value)，所以返回值的长度是哈希表大小的两倍。
+     * @param index
+     * @param key
+     * @return
+     */
     public Map<String, String> hgetAll(int index, String key) {
         return execute(new RedisCallback<Map<String, String>>() {
             @Override
@@ -148,7 +170,14 @@ public class RedisTempalte {
             }
         }, index, key);
     }
-
+    /**
+     * 删除哈希表 key 中的一个或多个指定域，不存在的域将被忽略。
+		在Redis2.4以下的版本里， HDEL 每次只能删除单个域，如果你需要在一个原子时间内删除多个域，请将命令包含在 MULTI / EXEC 块内。
+     * @param index
+     * @param mapKey
+     * @param attributeKey
+     * @return
+     */
     public Long hdel(int index, String mapKey, String attributeKey) {
         return execute(new RedisCallback<Long>() {
             @Override
@@ -161,13 +190,12 @@ public class RedisTempalte {
     }
 
     /**
+     * 将哈希表 key 中的域 field 的值设为 value 。
+		如果 key 不存在，一个新的哈希表被创建并进行 HSET 操作。
+		如果域 field 已经存在于哈希表中，旧值将被覆盖。
      * @param key
      * @param field
      * @param value
-     * @Description: Hash（哈希）
-     * @author Wanglei
-     * Date: 2015-8-12 上午9:30:29
-     * @version [版本号1.0.0]
      */
     public void hset(int index, String key, String field, String value) {
         execute(new RedisCallback<String>() {
@@ -182,12 +210,11 @@ public class RedisTempalte {
     }
 
     /**
+     * 返回 key 所关联的字符串值。
+		如果 key 不存在那么返回特殊值 nil 。
+		假如 key 储存的值不是字符串类型，返回一个错误，因为 GET 只能用于处理字符串值。
      * @param key
      * @return value
-     * @Description:String（字符串）获取
-     * @author Wanglei
-     * Date: 2015-8-12 上午9:30:58
-     * @version [版本号1.0.0]
      */
     public String get(int index, String key) {
         return execute(new RedisCallback<String>() {
@@ -198,6 +225,12 @@ public class RedisTempalte {
         }, index, key);
     }
 
+    /**
+     * 
+     * @param index
+     * @param key
+     * @return
+     */
     public byte[] getByte(int index, String key) {
         return execute(new RedisCallback<byte[]>() {
             public byte[] call(Jedis jedis, Object parms) {
@@ -213,12 +246,16 @@ public class RedisTempalte {
     }
 
     /**
+     * 将字符串值 value 关联到 key 。
+		如果 key 已经持有其他值， SET 就覆写旧值，无视类型。
+		对于某个原本带有生存时间（TTL）的键来说， 当 SET 命令成功在这个键上执行时， 这个键原有的 TTL 将被清除。
+		EX second ：设置键的过期时间为 second 秒。 SET key value EX second 效果等同于 SETEX key second value 。
+		PX millisecond ：设置键的过期时间为 millisecond 毫秒。 SET key value PX millisecond 效果等同于 PSETEX key millisecond value 。
+		NX ：只在键不存在时，才对键进行设置操作。 SET key value NX 效果等同于 SETNX key value 。
+		XX ：只在键已经存在时，才对键进行设置操作。
      * @param key
      * @param value
-     * @Description: String（字符串）赋值
-     * @author Wanglei
-     * Date: 2015-8-12 上午9:31:32
-     * @version [版本号1.0.0]
+     * @return
      */
     public void set(int index, String key, String value) {
         execute(new RedisCallback<String>() {
@@ -283,6 +320,22 @@ public class RedisTempalte {
         }, index, key, value, seconds);
     }
 
+    /**
+     * 为给定 key 设置生存时间，当 key 过期时(生存时间为 0 )，它会被自动删除。
+		在 Redis 中，带有生存时间的 key 被称为『易失的』(volatile)。
+		生存时间可以通过使用 DEL 命令来删除整个 key 来移除，或者被 SET 和 GETSET 命令覆写(overwrite)，这意味着，如果一个命令只是修改(alter)一个带生存时间的 key 的值而不是用一个新的 key 值来代替(replace)它的话，那么生存时间不会被改变。
+		比如说，对一个 key 执行 INCR 命令，对一个列表进行 LPUSH 命令，或者对一个哈希表执行 HSET 命令，这类操作都不会修改 key 本身的生存时间。
+		另一方面，如果使用 RENAME 对一个 key 进行改名，那么改名后的 key 的生存时间和改名前一样。
+		RENAME 命令的另一种可能是，尝试将一个带生存时间的 key 改名成另一个带生存时间的 another_key ，这时旧的 another_key (以及它的生存时间)会被删除，然后旧的 key 会改名为 another_key ，因此，新的 another_key 的生存时间也和原本的 key 一样。
+		使用 PERSIST 命令可以在不删除 key 的情况下，移除 key 的生存时间，让 key 重新成为一个『持久的』(persistent) key 。
+		更新生存时间
+		可以对一个已经带有生存时间的 key 执行 EXPIRE 命令，新指定的生存时间会取代旧的生存时间。
+		过期时间的精确度
+     * @param index
+     * @param key
+     * @param seconds
+     * @return
+     */
     public Long expire(int index, String key, int seconds) {
         return execute(new RedisCallback<Long>() {
             public Long call(Jedis jedis, Object parms) {
@@ -296,9 +349,6 @@ public class RedisTempalte {
     /**
      * @param list
      * @Description: 批量Set
-     * @author Wanglei
-     * Date: 2015-8-12 上午9:31:58
-     * @version [版本号1.0.0]
      */
     public void setPipeLine(int index, List<RedisKVPO> list) {
         execute(new RedisCallback<String>() {
@@ -317,11 +367,10 @@ public class RedisTempalte {
 
 
     /**
+     * 删除给定的一个或多个 key 。
+		不存在的 key 会被忽略。
      * @param key
      * @Description: 根据key删除
-     * @author Wanglei
-     * Date: 2015-8-12 上午9:32:33
-     * @version [版本号1.0.0]
      */
     public Long del(int index, String key) {
         return execute(new RedisCallback<Long>() {
@@ -331,7 +380,14 @@ public class RedisTempalte {
             }
         }, index, key);
     }
-
+    /**
+     * 返回列表 key 的长度。
+		如果 key 不存在，则 key 被解释为一个空列表，返回 0 .
+		如果 key 不是列表类型，返回一个错误。
+     * @param index
+     * @param key
+     * @return
+     */
     public String llen(int index, String key) {
         return execute(new RedisCallback<String>() {
             public String call(Jedis jedis, Object parms) {
@@ -340,7 +396,16 @@ public class RedisTempalte {
             }
         }, index, key);
     }
-
+    /**
+     * 将一个或多个值 value 插入到列表 key 的表头
+		如果有多个 value 值，那么各个 value 值按从左到右的顺序依次插入到表头： 比如说，对空列表 mylist 执行命令 LPUSH mylist a b c ，列表的值将是 c b a ，这等同于原子性地执行 LPUSH mylist a 、 LPUSH mylist b 和 LPUSH mylist c 三个命令。
+		如果 key 不存在，一个空列表会被创建并执行 LPUSH 操作。
+		当 key 存在但不是列表类型时，返回一个错误。
+     * @param index
+     * @param key
+     * @param value
+     * @return
+     */
     public Long lpush(int index, String key, String value) {
         return execute(new RedisCallback<Long>() {
             public Long call(Jedis jedis, Object parms) {
@@ -367,6 +432,22 @@ public class RedisTempalte {
         }, index, key, values);
     }
 
+    /**
+     * 返回列表 key 中指定区间内的元素，区间以偏移量 start 和 stop 指定。
+		下标(index)参数 start 和 stop 都以 0 为底，也就是说，以 0 表示列表的第一个元素，以 1 表示列表的第二个元素，以此类推。
+		你也可以使用负数下标，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推。
+		注意LRANGE命令和编程语言区间函数的区别
+		假如你有一个包含一百个元素的列表，对该列表执行 LRANGE list 0 10 ，结果是一个包含11个元素的列表，这表明 stop 下标也在 LRANGE 命令的取值范围之内(闭区间)，这和某些语言的区间函数可能不一致，比如Ruby的 Range.new 、 Array#slice 和Python的 range() 函数。
+		超出范围的下标
+		超出范围的下标值不会引起错误。
+		如果 start 下标比列表的最大下标 end ( LLEN list 减去 1 )还要大，那么 LRANGE 返回一个空列表。
+		如果 stop 下标比 end 下标还要大，Redis将 stop 的值设置为 end 。
+     * @param index
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
     public List<String> lrange(int index, String key, long start, long end) {
         return execute(new RedisCallback<List<String>>() {
             public List<String> call(Jedis jedis, Object parms) {
@@ -379,6 +460,16 @@ public class RedisTempalte {
         }, index, key, start, end);
     }
 
+    /**
+     * 将 key 中储存的数字值增一。
+		如果 key 不存在，那么 key 的值会先被初始化为 0 ，然后再执行 INCR 操作。
+		如果值包含错误的类型，或字符串类型的值不能表示为数字，那么返回一个错误。
+		本操作的值限制在 64 位(bit)有符号数字表示之内。
+		这是一个针对字符串的操作，因为 Redis 没有专用的整数类型，所以 key 内储存的字符串被解释为十进制 64 位有符号整数来执行 INCR 操作。
+     * @param index
+     * @param key
+     * @return
+     */
     public Long incr(int index, String key) {
         return execute(new RedisCallback<Long>() {
             public Long call(Jedis jedis, Object parms) {
@@ -387,7 +478,15 @@ public class RedisTempalte {
             }
         }, index, key);
     }
-
+    /**
+     * 将一个或多个 member 元素加入到集合 key 当中，已经存在于集合的 member 元素将被忽略。
+		假如 key 不存在，则创建一个只包含 member 元素作成员的集合。
+		当 key 不是集合类型时，返回一个错误。
+     * @param index
+     * @param key
+     * @param value
+     * @return
+     */
     public Long sadd(int index, String key, String value) {
         return execute(new RedisCallback<Long>() {
             public Long call(Jedis jedis, Object parms) {
