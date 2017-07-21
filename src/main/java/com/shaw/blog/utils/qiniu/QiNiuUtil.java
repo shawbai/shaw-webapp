@@ -181,7 +181,7 @@ public class QiNiuUtil {
 		System.out.println(str);
 	}
 	QiNiuUtil.getInstance().delAllFile("myblog", keyList);
-		String path = "E:\\workspace\\shaw-webapp\\src\\main\\webapp\\dist";
+		String path = "E:\\workspace\\shaw-webapp\\src\\main\\webapp\\vue-blog\\dist";
 		QiNiuUtil.getInstance().uploadRecursively(path,path,"myblog");
 
 	}
